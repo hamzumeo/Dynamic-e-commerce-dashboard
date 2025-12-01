@@ -3,23 +3,15 @@ import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# ------------------- SECURITY -------------------
 SECRET_KEY = os.environ.get(
     "DJANGO_SECRET_KEY",
     "django-insecure-shopsmart-demo-key-change-in-production"
 )
 
-# Debug will be false on Vercel by default
-DEBUG = os.environ.get("DEBUG", "False") == "True"
+DEBUG = os.environ.get("DEBUG", "True") == "True"
 
-ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1",
-    ".vercel.app",
-    ".now.sh",
-]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", ".vercel.app"]
 
-# ------------------- APPS -------------------
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -30,7 +22,6 @@ INSTALLED_APPS = [
     "shop",
 ]
 
-# ------------------- MIDDLEWARE -------------------
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -43,7 +34,6 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "config.urls"
 
-# ------------------- TEMPLATES -------------------
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -62,7 +52,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
-# ------------------- DATABASE -------------------
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -70,7 +59,6 @@ DATABASES = {
     }
 }
 
-# ------------------- PASSWORD VALIDATION -------------------
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
@@ -78,28 +66,23 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-# ------------------- INTERNATIONALIZATION -------------------
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "Asia/Karachi"
 USE_I18N = True
 USE_TZ = True
 
-# ------------------- STATIC FILES -------------------
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-# ------------------- MEDIA FILES -------------------
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# ------------------- LOGIN/LOGOUT -------------------
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 LOGIN_URL = "/accounts/login/"
 
-# ------------------- SECURITY FOR PRODUCTION -------------------
 if not DEBUG:
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
     CSRF_COOKIE_SECURE = True

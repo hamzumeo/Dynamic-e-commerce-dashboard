@@ -1,8 +1,13 @@
 {
   "version": 2,
+  "functions": {
+    "api/wsgi.py": {
+      "runtime": "python3.11"
+    }
+  },
   "builds": [
     {
-      "src": "config/wsgi.py",
+      "src": "api/wsgi.py",
       "use": "@vercel/python"
     }
   ],
@@ -13,7 +18,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "config/wsgi.py"
+      "dest": "api/wsgi.py"
     }
   ]
 }
