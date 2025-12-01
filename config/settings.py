@@ -1,16 +1,12 @@
-from pathlib import Path
 import os
+from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.environ.get(
-    "DJANGO_SECRET_KEY",
-    "django-insecure-shopsmart-demo-key-change-in-production"
-)
+SECRET_KEY = "your-secret-key"
+DEBUG = True
 
-DEBUG = os.environ.get("DEBUG", "True") == "True"
-
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", ".vercel.app"]
+ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -59,32 +55,6 @@ DATABASES = {
     }
 }
 
-AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
-]
-
-LANGUAGE_CODE = "en-us"
-TIME_ZONE = "Asia/Karachi"
-USE_I18N = True
-USE_TZ = True
-
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-
-MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
-
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-LOGIN_REDIRECT_URL = "/"
-LOGOUT_REDIRECT_URL = "/"
-LOGIN_URL = "/accounts/login/"
-
-if not DEBUG:
-    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-    CSRF_COOKIE_SECURE = True
-    SESSION_COOKIE_SECURE = True
-    SECURE_SSL_REDIRECT = True
+STATICFILES_DIRS = [BASE_DIR / "static"]
