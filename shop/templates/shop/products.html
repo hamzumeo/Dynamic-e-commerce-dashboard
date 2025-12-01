@@ -1,0 +1,51 @@
+{% extends "shop/base.html" %}
+
+{% block title %}Products | ShopSmart{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div>
+        <h1 class="page-title">Products</h1>
+        {% if query %}
+            <p class="page-subtitle">
+                Showing results for "<strong>{{ query }}</strong>"
+            </p>
+        {% else %}
+            <p class="page-subtitle">Browse our latest products.</p>
+        {% endif %}
+    </div>
+</section>
+
+<section class="products-grid">
+    {% if page_obj.object_list %}
+        <div class="grid">
+            {# Loop through paginated products and render each product card #}
+            {% for product in page_obj.object_list %}
+                {% include "shop/includes/product_card.html" with product=product %}
+            {% endfor %}
+        </div>
+
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?{% if query %}q={{ query }}&amp;{% endif %}page={{ page_obj.previous_page_number }}"
+                   class="pagination-link">
+                    Previous
+                </a>
+            {% endif %}
+
+            <span class="pagination-info">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?{% if query %}q={{ query }}&amp;{% endif %}page={{ page_obj.next_page_number }}"
+                   class="pagination-link">
+                    Next
+                </a>
+            {% endif %}
+        </div>
+    {% else %}
+        <p class="empty-state">No products found.</p>
+    {% endif %}
+</section>
+{% endblock %}

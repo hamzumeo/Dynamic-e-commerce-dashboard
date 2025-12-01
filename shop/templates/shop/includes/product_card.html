@@ -1,0 +1,22 @@
+{% load shop_extras %}
+<div class="product-card">
+    <div class="product-card-body">
+        <h3 class="product-card-title">{{ product.name }}</h3>
+        <p class="product-card-price">{{ product.price|format_price }} PKR</p>
+
+        {% if product.stock > 0 %}
+            <p class="product-card-stock product-card-stock--in">
+                In Stock: {{ product.stock }}
+            </p>
+        {% else %}
+            <p class="product-card-stock product-card-stock--out">
+                Out of Stock
+            </p>
+        {% endif %}
+    </div>
+    <div class="product-card-footer">
+        <button class="btn btn-sm btn-primary" type="button">
+            Add to Cart
+        </button>
+    </div>
+</div>

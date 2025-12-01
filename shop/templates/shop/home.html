@@ -1,0 +1,23 @@
+{% extends "shop/base.html" %}
+
+{% block title %}Home | ShopSmart{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-content">
+        <h1 class="hero-title">{{ welcome_message }}</h1>
+
+        {% if user.is_authenticated %}
+            <p class="hero-subtitle">Welcome back, {{ user.username }}!</p>
+            <a href="{% url 'products' %}" class="btn btn-primary hero-cta">
+                Continue Shopping
+            </a>
+        {% else %}
+            <p class="hero-subtitle">Sign in to start shopping.</p>
+            <div class="hero-actions">
+                <a href="{% url 'login' %}" class="btn btn-primary">Sign In</a>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

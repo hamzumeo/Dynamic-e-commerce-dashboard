@@ -1,0 +1,42 @@
+<header class="header">
+    <div class="header-inner">
+        <div class="logo-area">
+            <a href="{% url 'home' %}" class="logo">ShopSmart</a>
+        </div>
+        <nav class="nav">
+            <a href="{% url 'home' %}"
+               class="nav-link{% if request.path == '/' %} nav-link--active{% endif %}">
+                Home
+            </a>
+            <a href="{% url 'products' %}"
+               class="nav-link{% if request.path|slice:':10' == '/products/' or request.path == '/products' %} nav-link--active{% endif %}">
+                Products
+            </a>
+            <a href="{% url 'cart' %}"
+               class="nav-link{% if request.path == '/cart/' %} nav-link--active{% endif %}">
+                Cart
+            </a>
+            <a href="{% url 'profile' %}"
+               class="nav-link{% if request.path == '/profile/' %} nav-link--active{% endif %}">
+                Profile
+            </a>
+        </nav>
+        <div class="header-right">
+            <form method="get" action="{% url 'products' %}" class="search-form">
+                <input
+                    type="text"
+                    name="q"
+                    value="{{ query|default_if_none:'' }}"
+                    class="search-input"
+                    placeholder="Search products..."
+                >
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+            {% if user.is_authenticated %}
+                <span class="header-user">Hi, {{ user.username }}</span>
+            {% else %}
+                <a href="{% url 'login' %}" class="btn btn-outline">Sign In</a>
+            {% endif %}
+        </div>
+    </div>
+</header>
