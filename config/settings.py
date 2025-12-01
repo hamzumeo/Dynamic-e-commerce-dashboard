@@ -8,8 +8,16 @@ SECRET_KEY = os.environ.get(
     "DJANGO_SECRET_KEY",
     "django-insecure-shopsmart-demo-key-change-in-production"
 )
-DEBUG = os.environ.get("DEBUG", "True") == "True"
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", ".vercel.app"]
+
+# Debug will be false on Vercel by default
+DEBUG = os.environ.get("DEBUG", "False") == "True"
+
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    ".vercel.app",
+    ".now.sh",
+]
 
 # ------------------- APPS -------------------
 INSTALLED_APPS = [
@@ -80,23 +88,18 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-DEBUG = False  # Vercel is production
-ALLOWED_HOSTS = ["*"]  # Or your vercel domain
-
-
 # ------------------- MEDIA FILES -------------------
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
-# ------------------- DEFAULT FIELD -------------------
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # ------------------- LOGIN/LOGOUT -------------------
-LOGIN_REDIRECT_URL = "/"          # Redirect after login
-LOGOUT_REDIRECT_URL = "/"         # Redirect after logout
-LOGIN_URL = "/accounts/login/"    # Required for @login_required
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
+LOGIN_URL = "/accounts/login/"
 
-# ------------------- SECURITY & PRODUCTION -------------------
+# ------------------- SECURITY FOR PRODUCTION -------------------
 if not DEBUG:
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
     CSRF_COOKIE_SECURE = True
