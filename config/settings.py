@@ -78,8 +78,11 @@ USE_TZ = True
 
 # ------------------- STATIC FILES -------------------
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [BASE_DIR / "static"]      # Development static files
-STATIC_ROOT = BASE_DIR / "staticfiles"        # Collected static files for deployment
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+DEBUG = False  # Vercel is production
+ALLOWED_HOSTS = ["*"]  # Or your vercel domain
+
 
 # ------------------- MEDIA FILES -------------------
 MEDIA_URL = "/media/"
