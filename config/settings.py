@@ -1,14 +1,25 @@
+# config/settings.py  → FINAL VERSION (Dec 2025 - Working on Vercel + Render both)
+
 import os
 from pathlib import Path
-import dj_database_url  # ← Requirements mein hai
+import dj_database_url
 
+# Build paths
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.environ.get("SECRET_KEY", "your-secret-key")  # Env var se le lo
-DEBUG = False
+# SECURITY
+SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-change-me-in-production-123456")
+DEBUG = False  # Production mein False hi rahega
 
-ALLOWED_HOSTS = ['.vercel.app', 'localhost', '127.0.0.1']
+# Hosts
+ALLOWED_HOSTS = [
+    ".vercel.app",
+    ".onrender.com",      # Render ke liye
+    "localhost",
+    "127.0.0.1",
+]
 
+# Apps
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -16,12 +27,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "shop",
+    "shop",                     # tumhara app
 ]
 
+# Middleware
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",   # ← Static files ke liye zaroori
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -32,6 +44,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "config.urls"
 
+# Templates
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -50,17 +63,39 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
-# DB Fix: Local SQLite + Vercel Postgres fallback (free Postgres banao Vercel dashboard mein)
+# DATABASE → Local mein SQLite, Vercel/Render mein auto Postgres
 DATABASES = {
     "default": dj_database_url.config(
+        # Local ke liye fallback SQLite
         default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
         conn_max_age=600,
         conn_health_checks=True,
-    ),
+    )
 }
 
-# Static Files
+# Password validation (default rakh do)
+AUTH_PASSWORD_VALIDATORS = [
+    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
+]
+
+# Internationalization
+LANGUAGE_CODE = "en-us"
+TIME_ZONE = "UTC"
+USE_I18N = True
+USE_TZ = True
+
+# Static files (CSS, JavaScript, Images) → WhiteNoise + Vercel/Render compatible
 STATIC_URL = "/static/"
-STATIC_ROOT = BASE_DIR / "staticfiles_build" / "static"  # ← Yeh change karo build.sh ke hisab se
+STATIC_ROOT = BASE_DIR / "staticfiles"           # ← YEH HI RAKHO (simple & working)
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+# Media files (agar upload karna ho future mein)
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
+
+# Default primary key field type
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
