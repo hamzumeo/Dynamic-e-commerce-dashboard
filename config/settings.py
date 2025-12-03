@@ -1,10 +1,10 @@
 import os
 from pathlib import Path
-import dj_database_url   # ← ye add karna zaroori hai
+import dj_database_url  # ← Requirements mein hai
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-replace-me-in-production")
+SECRET_KEY = os.environ.get("SECRET_KEY", "your-secret-key")  # Env var se le lo
 DEBUG = False
 
 ALLOWED_HOSTS = ['.vercel.app', 'localhost', '127.0.0.1']
@@ -21,7 +21,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",   # ← 2nd position pe
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -50,16 +50,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
-# DATABASE — Vercel + local dono ke liye perfect
+# DB Fix: Local SQLite + Vercel Postgres fallback (free Postgres banao Vercel dashboard mein)
 DATABASES = {
     "default": dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR}/db.sqlite3",
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
         conn_max_age=600,
-    )
+        conn_health_checks=True,
+    ),
 }
 
-# Static files (WhiteNoise)
+# Static Files
 STATIC_URL = "/static/"
-STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_ROOT = BASE_DIR / "staticfiles_build" / "static"  # ← Yeh change karo build.sh ke hisab se
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"

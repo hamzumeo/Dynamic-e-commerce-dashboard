@@ -5,6 +5,6 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 
 application = get_wsgi_application()
 
-# Vercel ke liye dono line zaroori hain
+# Vercel ke liye
 app = application
-handler = application
+handler = application  # ← Yeh extra add karo agar logs mein handler error aaye
